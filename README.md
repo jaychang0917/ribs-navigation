@@ -49,12 +49,15 @@ To support back navigation,
 2. Override the `RootRouter.handleBackPress()` to propagate the event to screens. The `ViewProvider.onBackPress()` callbacks follow the Chain of Responsibility pattern. Each callback in the chain is invoked only if the preceding callback return `false`.
 ```kotlin
 override fun handleBackPress(): Boolean {
+    if (screenStack.isRoot()) return false
+
     for (transaction in screenStack) {
         val screen = transaction.screen
         if (screen.onBackPress() || screenStack.handleBackPress()) {
-           return true
+            return true
         }
     }
+
     return super.handleBackPress()
 }
 ```
@@ -62,12 +65,12 @@ override fun handleBackPress(): Boolean {
 // SelectPaymentScreen is the first screen of payment flow, we should detach the viewless payment RIB along with this screen when back pressed.
 class SelectPaymentScreen(
     private val view: SelectPaymentView,
-    private val listener: PaymentInteractor.Listener
+    private val listener: SelectPaymentInteractor.Listener
 ) : ViewProvider() {
     override fun buildView(parentView: ViewGroup): View = view
 
     override fun onBackPress(): Boolean {
-        listener.detachPayment()
+        listener.onCloseButtonClicked()
         return true
     }
 }
