@@ -4,9 +4,9 @@ This repo aims to demostrate a solution to handle navigation with RIBs for Andro
 
 ## Table of Contents
 * [Push / pop screen(s)](#push_pop)
-* [Present / dismiss screen(s)](present_dismiss)
-* [Back Navigation](back_nav)
-* [Transition](transition)
+* [Present / dismiss screen(s)](#present_dismiss)
+* [Back Navigation](#back_nav)
+* [Transition](#transition)
 
 ### <a name=push_pop>Push / pop screen(s)</a>
 #### Push a screen
@@ -38,7 +38,7 @@ fun detachDeliveryOrderRefinement() {
 ### <a name=present_dismiss>Present / dismiss screen(s)</a>
 In comparision to push/pop mechanism, `presentScreen()` doesn't removes the current view from parent ViewGroup, but `pushScreen()` does. Use this if you want to stack a screen on top of current screen.
 
-### <a name=back>Back Navigation</a>
+### <a name=back_nav>Back Navigation</a>
 To support back navigation, 
 
 1. Observes the screen event using `observeScreenEvent()` so that `detachChild()` is called when back pressed.
