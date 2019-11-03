@@ -88,7 +88,8 @@ class AwesomeTransition : Transition {
         // your imagination here
     }
 }
-
+```
+```kotlin
 screenStack.pushScreen(screen, AwesomeTransition())
 ```
 
