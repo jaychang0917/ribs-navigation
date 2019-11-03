@@ -1,6 +1,6 @@
 # ribs-navigation
 
-This repo aims to demostrate a solution to handle navigation with RIBs. 
+This repo aims to demostrate a solution to handle navigation with RIBs for Android. 
 
 ## Table of Contents
 * [Push / pop screen(s)](#push_pop)
