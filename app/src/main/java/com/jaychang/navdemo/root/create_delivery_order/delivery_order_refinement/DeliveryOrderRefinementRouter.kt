@@ -17,19 +17,21 @@
 
 package com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement
 
+import com.jaychang.navdemo.RouterEx
 import com.jaychang.navdemo.root.RootView
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_order_summary.DeliveryOrderSummaryBuilder
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_order_summary.DeliveryOrderSummaryScreen
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoBuilder
+import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoInteractor
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoScreen
-import com.jaychang.navdemo.RouterEx
 import com.jaychang.screenstack.ScreenStack
 import com.jaychang.screenstack.VerticalTransition
 
 class DeliveryOrderRefinementRouter(
-    private val rootView: RootView,
     interactor: DeliveryOrderRefinementInteractor,
     component: DeliveryOrderRefinementBuilder.Component,
+    private val rootView: RootView,
+    private val deliveryPackageInfoListener: DeliveryPackageInfoInteractor.Listener,
     private val deliveryPackageInfoBuilder: DeliveryPackageInfoBuilder,
     private val deliveryOrderSummaryBuilder: DeliveryOrderSummaryBuilder,
     private val screenStack: ScreenStack
@@ -37,7 +39,7 @@ class DeliveryOrderRefinementRouter(
 
     fun attachDeliveryPackageInfo() {
         val router = deliveryPackageInfoBuilder.build(rootView)
-        val screen = DeliveryPackageInfoScreen(router.view, interactor.listener)
+        val screen = DeliveryPackageInfoScreen(router.view, deliveryPackageInfoListener)
         observeScreenEvent(screen, router)
         screenStack.pushScreen(screen)
     }

@@ -33,101 +33,103 @@ import javax.inject.Scope
 import kotlin.annotation.AnnotationRetention.BINARY
 
 class PaymentBuilder(
-  dependency: ParentComponent
+    dependency: ParentComponent
 ) : Builder<PaymentRouter, PaymentBuilder.ParentComponent>(dependency) {
 
-  fun build(): PaymentRouter {
-    val interactor = PaymentInteractor()
-    val component = DaggerPaymentBuilder_Component.builder()
-        .parentComponent(dependency)
-        .interactor(interactor)
-        .build()
-    return component.paymentFlowRouter()
-  }
+    fun build(): PaymentRouter {
+        val interactor = PaymentInteractor()
+        val component = DaggerPaymentBuilder_Component.builder()
+            .parentComponent(dependency)
+            .interactor(interactor)
+            .build()
+        return component.paymentFlowRouter()
+    }
 
-  interface ParentComponent {
-    fun rootView(): RootView
-    
-    fun screenStack(): ScreenStack
-    
-    fun paymentFlowListener(): PaymentInteractor.Listener
-  }
+    interface ParentComponent {
+        fun rootView(): RootView
 
-  @dagger.Module
-  abstract class Module {
+        fun screenStack(): ScreenStack
+
+        fun paymentFlowListener(): PaymentInteractor.Listener
+    }
 
     @dagger.Module
-    companion object {
+    abstract class Module {
 
-      @PaymentFlowScope
-      @Provides
-      @JvmStatic
-      fun presenter() = EmptyPresenter()
+        @dagger.Module
+        companion object {
 
-      @PaymentFlowScope
-      @Provides
-      @JvmStatic
-      fun selectPaymentListener(interactor: PaymentInteractor): SelectPaymentInteractor.Listener {
-        return interactor.SelectPaymentListener()
-      }
+            @PaymentFlowScope
+            @Provides
+            @JvmStatic
+            fun presenter() = EmptyPresenter()
 
-      @PaymentFlowScope
-      @Provides
-      @JvmStatic
-      fun addCreditCardListener(interactor: PaymentInteractor): AddCreditCardInteractor.Listener {
-        return interactor.AddCreditCardListener()
-      }
+            @PaymentFlowScope
+            @Provides
+            @JvmStatic
+            fun selectPaymentListener(interactor: PaymentInteractor): SelectPaymentInteractor.Listener {
+                return interactor.SelectPaymentListener()
+            }
 
-      @PaymentFlowScope
-      @Provides
-      @JvmStatic
-      fun router(
-        view: RootView,
-        component: Component,
-        interactor: PaymentInteractor,
-        screenStack: ScreenStack
-      ): PaymentRouter {
-        val selectPaymentBuilder = SelectPaymentBuilder(component)
-        val addCreditCardBuilder = AddCreditCardBuilder(component)
-        return PaymentRouter(
-            view,
-            interactor,
-            component,
-            selectPaymentBuilder,
-            addCreditCardBuilder,
-            screenStack
-        )
-      }
+            @PaymentFlowScope
+            @Provides
+            @JvmStatic
+            fun addCreditCardListener(interactor: PaymentInteractor): AddCreditCardInteractor.Listener {
+                return interactor.AddCreditCardListener()
+            }
+
+            @PaymentFlowScope
+            @Provides
+            @JvmStatic
+            fun router(
+                rootView: RootView,
+                component: Component,
+                interactor: PaymentInteractor,
+                selectPaymentListener: SelectPaymentInteractor.Listener,
+                screenStack: ScreenStack
+            ): PaymentRouter {
+                val selectPaymentBuilder = SelectPaymentBuilder(component)
+                val addCreditCardBuilder = AddCreditCardBuilder(component)
+                return PaymentRouter(
+                    interactor,
+                    component,
+                    rootView,
+                    selectPaymentListener,
+                    selectPaymentBuilder,
+                    addCreditCardBuilder,
+                    screenStack
+                )
+            }
+        }
     }
-  }
 
-  @PaymentFlowScope
-  @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
-  interface Component : InteractorBaseComponent<PaymentInteractor>,
-    AddCreditCardBuilder.ParentComponent,
-    SelectPaymentBuilder.ParentComponent,
-    BuilderComponent {
+    @PaymentFlowScope
+    @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
+    interface Component : InteractorBaseComponent<PaymentInteractor>,
+        AddCreditCardBuilder.ParentComponent,
+        SelectPaymentBuilder.ParentComponent,
+        BuilderComponent {
 
-    @dagger.Component.Builder
-    interface Builder {
-      @BindsInstance
-      fun interactor(interactor: PaymentInteractor): Builder
+        @dagger.Component.Builder
+        interface Builder {
+            @BindsInstance
+            fun interactor(interactor: PaymentInteractor): Builder
 
-      fun parentComponent(component: ParentComponent): Builder
+            fun parentComponent(component: ParentComponent): Builder
 
-      fun build(): Component
+            fun build(): Component
+        }
     }
-  }
 
-  interface BuilderComponent {
-    fun paymentFlowRouter(): PaymentRouter
-  }
+    interface BuilderComponent {
+        fun paymentFlowRouter(): PaymentRouter
+    }
 
-  @Scope
-  @kotlin.annotation.Retention(BINARY)
-  annotation class PaymentFlowScope
+    @Scope
+    @kotlin.annotation.Retention(BINARY)
+    annotation class PaymentFlowScope
 
-  @Qualifier
-  @kotlin.annotation.Retention(BINARY)
-  annotation class PaymentFlowInternal
+    @Qualifier
+    @kotlin.annotation.Retention(BINARY)
+    annotation class PaymentFlowInternal
 }

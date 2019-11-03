@@ -19,17 +19,16 @@ package com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinemen
 
 import android.view.View
 import android.view.ViewGroup
-import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.DeliveryOrderRefinementInteractor
 import com.uber.rib.core.screenstack.ViewProvider
 
 class DeliveryPackageInfoScreen(
     private val view: DeliveryPackageInfoView,
-    private val listener: DeliveryOrderRefinementInteractor.Listener
+    private val listener: DeliveryPackageInfoInteractor.Listener
 ) : ViewProvider() {
     override fun buildView(parentView: ViewGroup): View = view
 
     override fun onBackPress(): Boolean {
-        listener.detachDeliveryOrderRefinement()
+        listener.onBackButtonClicked()
         return true
     }
 }

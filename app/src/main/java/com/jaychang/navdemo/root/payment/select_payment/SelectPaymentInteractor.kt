@@ -26,39 +26,39 @@ import javax.inject.Inject
 @RibInteractor
 class SelectPaymentInteractor : Interactor<SelectPaymentInteractor.Presenter, SelectPaymentRouter>() {
 
-  @Inject
-  lateinit var presenter: Presenter
+    @Inject
+    lateinit var presenter: Presenter
 
-  @Inject
-  lateinit var listener: Listener
+    @Inject
+    lateinit var listener: Listener
 
-  override fun didBecomeActive(savedInstanceState: Bundle?) {
-    super.didBecomeActive(savedInstanceState)
-    presenter.closeButtonClicks()
-      .subscribe {
-        listener.onCloseButtonClicked()
-      }
-    
-    presenter.addCreditCardButtonClicks()
-      .subscribe {
-        listener.onAddCreditCardButtonClicked()
-      }
-  }
+    override fun didBecomeActive(savedInstanceState: Bundle?) {
+        super.didBecomeActive(savedInstanceState)
+        presenter.closeButtonClicks()
+            .subscribe {
+                listener.onCloseButtonClicked()
+            }
 
-  override fun willResignActive() {
-    super.willResignActive()
-    println("${javaClass.simpleName} willResignActive")
-  }
+        presenter.addCreditCardButtonClicks()
+            .subscribe {
+                listener.onAddCreditCardButtonClicked()
+            }
+    }
 
-  interface Presenter {
-    fun closeButtonClicks(): Observable<Unit>
+    override fun willResignActive() {
+        super.willResignActive()
+        println("${javaClass.simpleName} willResignActive")
+    }
 
-    fun addCreditCardButtonClicks(): Observable<Unit>
-  }
+    interface Presenter {
+        fun closeButtonClicks(): Observable<Unit>
 
-  interface Listener {
-    fun onCloseButtonClicked()
+        fun addCreditCardButtonClicks(): Observable<Unit>
+    }
 
-    fun onAddCreditCardButtonClicked()
-  }
+    interface Listener {
+        fun onCloseButtonClicked()
+
+        fun onAddCreditCardButtonClicked()
+    }
 }

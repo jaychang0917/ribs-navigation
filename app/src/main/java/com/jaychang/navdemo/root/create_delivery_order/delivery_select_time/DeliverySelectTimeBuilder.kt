@@ -29,76 +29,79 @@ import javax.inject.Qualifier
 import javax.inject.Scope
 import kotlin.annotation.AnnotationRetention.BINARY
 
-class DeliverySelectTimeBuilder(dependency: ParentComponent) : ViewBuilder<DeliverySelectTimeView, DeliverySelectTimeRouter, DeliverySelectTimeBuilder.ParentComponent>(dependency) {
+class DeliverySelectTimeBuilder(
+    dependency: ParentComponent
+) : ViewBuilder<DeliverySelectTimeView, DeliverySelectTimeRouter, DeliverySelectTimeBuilder.ParentComponent>(dependency) {
 
-  fun build(parentViewGroup: ViewGroup): DeliverySelectTimeRouter {
-    val view = createView(parentViewGroup)
-    val interactor = DeliverySelectTimeInteractor()
-    val component = DaggerDeliverySelectTimeBuilder_Component.builder()
-        .parentComponent(dependency)
-        .view(view)
-        .interactor(interactor)
-        .build()
-    return component.deliverySelectTimeRouter()
-  }
+    fun build(parentViewGroup: ViewGroup): DeliverySelectTimeRouter {
+        val view = createView(parentViewGroup)
+        val interactor = DeliverySelectTimeInteractor()
+        val component = DaggerDeliverySelectTimeBuilder_Component.builder()
+            .parentComponent(dependency)
+            .view(view)
+            .interactor(interactor)
+            .build()
+        return component.deliverySelectTimeRouter()
+    }
 
-  override fun inflateView(inflater: LayoutInflater, parentViewGroup: ViewGroup): DeliverySelectTimeView? {
-    return inflater.inflate(R.layout.rib_delivery_select_time, parentViewGroup, false) as DeliverySelectTimeView
-  }
+    override fun inflateView(inflater: LayoutInflater, parentViewGroup: ViewGroup): DeliverySelectTimeView? {
+        return inflater.inflate(R.layout.rib_delivery_select_time, parentViewGroup, false) as DeliverySelectTimeView
+    }
 
-  interface ParentComponent {
-    fun deliverySelectTimeListener(): DeliverySelectTimeInteractor.Listener
-  }
-
-  @dagger.Module
-  abstract class Module {
-
-    @DeliverySelectTimeScope
-    @Binds
-    abstract fun presenter(view: DeliverySelectTimeView): DeliverySelectTimeInteractor.Presenter
+    interface ParentComponent {
+        fun deliverySelectTimeListener(): DeliverySelectTimeInteractor.Listener
+    }
 
     @dagger.Module
-    companion object {
+    abstract class Module {
 
-      @DeliverySelectTimeScope
-      @Provides
-      @JvmStatic
-      fun router(
-          component: Component,
-          view: DeliverySelectTimeView,
-          interactor: DeliverySelectTimeInteractor): DeliverySelectTimeRouter {
-        return DeliverySelectTimeRouter(view, interactor, component)
-      }
+        @DeliverySelectTimeScope
+        @Binds
+        abstract fun presenter(view: DeliverySelectTimeView): DeliverySelectTimeInteractor.Presenter
+
+        @dagger.Module
+        companion object {
+
+            @DeliverySelectTimeScope
+            @Provides
+            @JvmStatic
+            fun router(
+                component: Component,
+                view: DeliverySelectTimeView,
+                interactor: DeliverySelectTimeInteractor
+            ): DeliverySelectTimeRouter {
+                return DeliverySelectTimeRouter(view, interactor, component)
+            }
+        }
     }
-  }
 
-  @DeliverySelectTimeScope
-  @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
-  interface Component : InteractorBaseComponent<DeliverySelectTimeInteractor>, BuilderComponent {
+    @DeliverySelectTimeScope
+    @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
+    interface Component : InteractorBaseComponent<DeliverySelectTimeInteractor>, BuilderComponent {
 
-    @dagger.Component.Builder
-    interface Builder {
-      @BindsInstance
-      fun interactor(interactor: DeliverySelectTimeInteractor): Builder
+        @dagger.Component.Builder
+        interface Builder {
+            @BindsInstance
+            fun interactor(interactor: DeliverySelectTimeInteractor): Builder
 
-      @BindsInstance
-      fun view(view: DeliverySelectTimeView): Builder
+            @BindsInstance
+            fun view(view: DeliverySelectTimeView): Builder
 
-      fun parentComponent(component: ParentComponent): Builder
+            fun parentComponent(component: ParentComponent): Builder
 
-      fun build(): Component
+            fun build(): Component
+        }
     }
-  }
 
-  interface BuilderComponent {
-    fun deliverySelectTimeRouter(): DeliverySelectTimeRouter
-  }
+    interface BuilderComponent {
+        fun deliverySelectTimeRouter(): DeliverySelectTimeRouter
+    }
 
-  @Scope
-  @kotlin.annotation.Retention(BINARY)
-  annotation class DeliverySelectTimeScope
+    @Scope
+    @kotlin.annotation.Retention(BINARY)
+    annotation class DeliverySelectTimeScope
 
-  @Qualifier
-  @kotlin.annotation.Retention(BINARY)
-  annotation class DeliverySelectTimeInternal
+    @Qualifier
+    @kotlin.annotation.Retention(BINARY)
+    annotation class DeliverySelectTimeInternal
 }

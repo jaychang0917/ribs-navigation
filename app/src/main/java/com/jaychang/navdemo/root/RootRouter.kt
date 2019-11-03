@@ -19,6 +19,7 @@ package com.jaychang.navdemo.root
 
 import com.jaychang.navdemo.root.create_delivery_order.CreateDeliveryOrderBuilder
 import com.jaychang.navdemo.root.create_delivery_order.CreateDeliveryOrderRouter
+import com.jaychang.navdemo.root.create_delivery_order.delivery_select_time.DeliverySelectTimeScreen
 import com.jaychang.navdemo.root.payment.PaymentBuilder
 import com.jaychang.navdemo.root.payment.PaymentRouter
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentScreen
@@ -46,6 +47,7 @@ class RootRouter(
     fun detachCreateDeliveryOrder() {
         val router = createDeliveryOrderRouter ?: return
         detachChild(router)
+        screenStack.popToScreen(DeliverySelectTimeScreen::class, true)
         createDeliveryOrderRouter = null
     }
 
@@ -63,12 +65,15 @@ class RootRouter(
     }
 
     override fun handleBackPress(): Boolean {
+        if (screenStack.isRoot()) return false
+
         for (transaction in screenStack) {
             val screen = transaction.screen
             if (screen.onBackPress() || screenStack.handleBackPress()) {
-               return true
+                return true
             }
         }
+
         return super.handleBackPress()
     }
 }

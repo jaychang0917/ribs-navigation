@@ -26,27 +26,27 @@ import com.uber.rib.core.RibInteractor
 @RibInteractor
 class RootInteractor : Interactor<RootInteractor.Presenter, RootRouter>() {
 
-  override fun didBecomeActive(savedInstanceState: Bundle?) {
-    super.didBecomeActive(savedInstanceState)
-    router.attachCreateDeliveryOrder()
-  }
-
-  override fun willResignActive() {
-    super.willResignActive()
-    println("${javaClass.simpleName} willResignActive")
-  }
-
-  interface Presenter
-  
-  inner class CreateDeliveryOrderListener : CreateDeliveryOrderInteractor.Listener {
-    override fun detachCreateDeliveryOrder() {
-      router.detachCreateDeliveryOrder()
+    override fun didBecomeActive(savedInstanceState: Bundle?) {
+        super.didBecomeActive(savedInstanceState)
+        router.attachCreateDeliveryOrder()
     }
-  }
 
-  inner class PaymentListener : PaymentInteractor.Listener {
-    override fun detachPayment() {
-      router.detachPayment()
+    override fun willResignActive() {
+        super.willResignActive()
+        println("${javaClass.simpleName} willResignActive")
     }
-  }
+
+    interface Presenter
+
+    inner class CreateDeliveryOrderListener : CreateDeliveryOrderInteractor.Listener {
+        override fun detachCreateDeliveryOrder() {
+            router.detachCreateDeliveryOrder()
+        }
+    }
+
+    inner class PaymentListener : PaymentInteractor.Listener {
+        override fun detachPayment() {
+            router.detachPayment()
+        }
+    }
 }

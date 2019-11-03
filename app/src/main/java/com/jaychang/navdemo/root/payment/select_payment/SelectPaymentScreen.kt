@@ -19,17 +19,16 @@ package com.jaychang.navdemo.root.payment.select_payment
 
 import android.view.View
 import android.view.ViewGroup
-import com.jaychang.navdemo.root.payment.PaymentInteractor
 import com.uber.rib.core.screenstack.ViewProvider
 
 class SelectPaymentScreen(
     private val view: SelectPaymentView,
-    private val listener: PaymentInteractor.Listener
+    private val listener: SelectPaymentInteractor.Listener
 ) : ViewProvider() {
     override fun buildView(parentView: ViewGroup): View = view
 
     override fun onBackPress(): Boolean {
-        listener.detachPayment()
+        listener.onCloseButtonClicked()
         return true
     }
 }

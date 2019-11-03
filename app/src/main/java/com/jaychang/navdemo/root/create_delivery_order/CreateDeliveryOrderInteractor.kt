@@ -44,10 +44,9 @@ class CreateDeliveryOrderInteractor : Interactor<EmptyPresenter, CreateDeliveryO
     interface Listener {
         fun detachCreateDeliveryOrder()
     }
-    
+
     inner class DeliverySelectTimeListener : DeliverySelectTimeInteractor.Listener {
         override fun onBackButtonClicked() {
-            router.detachDeliverySelectTime()
             listener.detachCreateDeliveryOrder()
         }
 
@@ -56,7 +55,7 @@ class CreateDeliveryOrderInteractor : Interactor<EmptyPresenter, CreateDeliveryO
         }
     }
 
-    inner class DeliveryOrderRefinementListener: DeliveryOrderRefinementInteractor.Listener {
+    inner class DeliveryOrderRefinementListener : DeliveryOrderRefinementInteractor.Listener {
         override fun detachDeliveryOrderRefinement() {
             router.detachDeliveryOrderRefinement()
         }

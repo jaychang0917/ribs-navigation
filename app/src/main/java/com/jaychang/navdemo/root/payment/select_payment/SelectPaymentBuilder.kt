@@ -29,76 +29,79 @@ import javax.inject.Qualifier
 import javax.inject.Scope
 import kotlin.annotation.AnnotationRetention.BINARY
 
-class SelectPaymentBuilder(dependency: ParentComponent) : ViewBuilder<SelectPaymentView, SelectPaymentRouter, SelectPaymentBuilder.ParentComponent>(dependency) {
+class SelectPaymentBuilder(
+    dependency: ParentComponent
+) : ViewBuilder<SelectPaymentView, SelectPaymentRouter, SelectPaymentBuilder.ParentComponent>(dependency) {
 
-  fun build(parentViewGroup: ViewGroup): SelectPaymentRouter {
-    val view = createView(parentViewGroup)
-    val interactor = SelectPaymentInteractor()
-    val component = DaggerSelectPaymentBuilder_Component.builder()
-        .parentComponent(dependency)
-        .view(view)
-        .interactor(interactor)
-        .build()
-    return component.deliverySelectTimeRouter()
-  }
+    fun build(parentViewGroup: ViewGroup): SelectPaymentRouter {
+        val view = createView(parentViewGroup)
+        val interactor = SelectPaymentInteractor()
+        val component = DaggerSelectPaymentBuilder_Component.builder()
+            .parentComponent(dependency)
+            .view(view)
+            .interactor(interactor)
+            .build()
+        return component.deliverySelectTimeRouter()
+    }
 
-  override fun inflateView(inflater: LayoutInflater, parentViewGroup: ViewGroup): SelectPaymentView? {
-    return inflater.inflate(R.layout.rib_select_payment, parentViewGroup, false) as SelectPaymentView
-  }
+    override fun inflateView(inflater: LayoutInflater, parentViewGroup: ViewGroup): SelectPaymentView? {
+        return inflater.inflate(R.layout.rib_select_payment, parentViewGroup, false) as SelectPaymentView
+    }
 
-  interface ParentComponent {
-    fun selectPaymentListener(): SelectPaymentInteractor.Listener
-  }
-
-  @dagger.Module
-  abstract class Module {
-
-    @SelectPaymentScope
-    @Binds
-    abstract fun presenter(view: SelectPaymentView): SelectPaymentInteractor.Presenter
+    interface ParentComponent {
+        fun selectPaymentListener(): SelectPaymentInteractor.Listener
+    }
 
     @dagger.Module
-    companion object {
+    abstract class Module {
 
-      @SelectPaymentScope
-      @Provides
-      @JvmStatic
-      fun router(
-          component: Component,
-          view: SelectPaymentView,
-          interactor: SelectPaymentInteractor): SelectPaymentRouter {
-        return SelectPaymentRouter(view, interactor, component)
-      }
+        @SelectPaymentScope
+        @Binds
+        abstract fun presenter(view: SelectPaymentView): SelectPaymentInteractor.Presenter
+
+        @dagger.Module
+        companion object {
+
+            @SelectPaymentScope
+            @Provides
+            @JvmStatic
+            fun router(
+                component: Component,
+                view: SelectPaymentView,
+                interactor: SelectPaymentInteractor
+            ): SelectPaymentRouter {
+                return SelectPaymentRouter(view, interactor, component)
+            }
+        }
     }
-  }
 
-  @SelectPaymentScope
-  @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
-  interface Component : InteractorBaseComponent<SelectPaymentInteractor>, BuilderComponent {
+    @SelectPaymentScope
+    @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
+    interface Component : InteractorBaseComponent<SelectPaymentInteractor>, BuilderComponent {
 
-    @dagger.Component.Builder
-    interface Builder {
-      @BindsInstance
-      fun interactor(interactor: SelectPaymentInteractor): Builder
+        @dagger.Component.Builder
+        interface Builder {
+            @BindsInstance
+            fun interactor(interactor: SelectPaymentInteractor): Builder
 
-      @BindsInstance
-      fun view(view: SelectPaymentView): Builder
+            @BindsInstance
+            fun view(view: SelectPaymentView): Builder
 
-      fun parentComponent(component: ParentComponent): Builder
+            fun parentComponent(component: ParentComponent): Builder
 
-      fun build(): Component
+            fun build(): Component
+        }
     }
-  }
 
-  interface BuilderComponent {
-    fun deliverySelectTimeRouter(): SelectPaymentRouter
-  }
+    interface BuilderComponent {
+        fun deliverySelectTimeRouter(): SelectPaymentRouter
+    }
 
-  @Scope
-  @kotlin.annotation.Retention(BINARY)
-  annotation class SelectPaymentScope
+    @Scope
+    @kotlin.annotation.Retention(BINARY)
+    annotation class SelectPaymentScope
 
-  @Qualifier
-  @kotlin.annotation.Retention(BINARY)
-  annotation class SelectPaymentInternal
+    @Qualifier
+    @kotlin.annotation.Retention(BINARY)
+    annotation class SelectPaymentInternal
 }

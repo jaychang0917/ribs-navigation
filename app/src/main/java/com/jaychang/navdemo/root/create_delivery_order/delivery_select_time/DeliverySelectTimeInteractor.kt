@@ -26,32 +26,32 @@ import javax.inject.Inject
 @RibInteractor
 class DeliverySelectTimeInteractor : Interactor<DeliverySelectTimeInteractor.Presenter, DeliverySelectTimeRouter>() {
 
-  @Inject
-  lateinit var presenter: Presenter
+    @Inject
+    lateinit var presenter: Presenter
 
-  @Inject
-  lateinit var listener: Listener
+    @Inject
+    lateinit var listener: Listener
 
-  override fun didBecomeActive(savedInstanceState: Bundle?) {
-    super.didBecomeActive(savedInstanceState)
-    presenter.nextButtonClicks()
-      .subscribe {
-        listener.onNextButtonClicked()
-      }
-  }
+    override fun didBecomeActive(savedInstanceState: Bundle?) {
+        super.didBecomeActive(savedInstanceState)
+        presenter.nextButtonClicks()
+            .subscribe {
+                listener.onNextButtonClicked()
+            }
+    }
 
-  override fun willResignActive() {
-    super.willResignActive()
-    println("${javaClass.simpleName} willResignActive")
-  }
+    override fun willResignActive() {
+        super.willResignActive()
+        println("${javaClass.simpleName} willResignActive")
+    }
 
-  interface Presenter {
-    fun nextButtonClicks(): Observable<Unit>
-  }
+    interface Presenter {
+        fun nextButtonClicks(): Observable<Unit>
+    }
 
-  interface Listener {
-    fun onBackButtonClicked()
+    interface Listener {
+        fun onBackButtonClicked()
 
-    fun onNextButtonClicked()
-  }
+        fun onNextButtonClicked()
+    }
 }

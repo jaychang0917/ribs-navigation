@@ -26,39 +26,39 @@ import javax.inject.Inject
 @RibInteractor
 class AddCreditCardInteractor : Interactor<AddCreditCardInteractor.Presenter, AddCreditCardRouter>() {
 
-  @Inject
-  lateinit var presenter: Presenter
+    @Inject
+    lateinit var presenter: Presenter
 
-  @Inject
-  lateinit var listener: Listener
+    @Inject
+    lateinit var listener: Listener
 
-  override fun didBecomeActive(savedInstanceState: Bundle?) {
-    super.didBecomeActive(savedInstanceState)
-    presenter.backButtonClicks()
-      .subscribe {
-        listener.onBackButtonClicked()
-      }
+    override fun didBecomeActive(savedInstanceState: Bundle?) {
+        super.didBecomeActive(savedInstanceState)
+        presenter.backButtonClicks()
+            .subscribe {
+                listener.onBackButtonClicked()
+            }
 
-    presenter.confirmButtonClicks()
-      .subscribe {
-        listener.onConfirmButtonClicked()
-      }
-  }
+        presenter.confirmButtonClicks()
+            .subscribe {
+                listener.onConfirmButtonClicked()
+            }
+    }
 
-  override fun willResignActive() {
-    super.willResignActive()
-    println("${javaClass.simpleName} willResignActive")
-  }
+    override fun willResignActive() {
+        super.willResignActive()
+        println("${javaClass.simpleName} willResignActive")
+    }
 
-  interface Presenter {
-    fun backButtonClicks(): Observable<Unit>
+    interface Presenter {
+        fun backButtonClicks(): Observable<Unit>
 
-    fun confirmButtonClicks(): Observable<Unit>
-  }
+        fun confirmButtonClicks(): Observable<Unit>
+    }
 
-  interface Listener {
-    fun onBackButtonClicked()
+    interface Listener {
+        fun onBackButtonClicked()
 
-    fun onConfirmButtonClicked()
-  }
+        fun onConfirmButtonClicked()
+    }
 }

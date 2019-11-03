@@ -27,30 +27,30 @@ import javax.inject.Inject
 @RibInteractor
 class DeliveryOrderRefinementInteractor : Interactor<EmptyPresenter, DeliveryOrderRefinementRouter>() {
 
-  @Inject
-  lateinit var listener: Listener
+    @Inject
+    lateinit var listener: Listener
 
-  override fun didBecomeActive(savedInstanceState: Bundle?) {
-    super.didBecomeActive(savedInstanceState)
-    router.attachDeliveryPackageInfo()
-  }
-
-  override fun willResignActive() {
-    super.willResignActive()
-    println("${javaClass.simpleName} willResignActive")
-  }
-
-  interface Listener {
-    fun detachDeliveryOrderRefinement()
-  }
-
-  inner class DeliveryPackageInfoListener : DeliveryPackageInfoInteractor.Listener {
-    override fun onBackButtonClicked() {
-      listener.detachDeliveryOrderRefinement()
+    override fun didBecomeActive(savedInstanceState: Bundle?) {
+        super.didBecomeActive(savedInstanceState)
+        router.attachDeliveryPackageInfo()
     }
 
-    override fun onShowOrderSummaryButtonClicked() {
-      router.attachDeliveryOrderSummary()
+    override fun willResignActive() {
+        super.willResignActive()
+        println("${javaClass.simpleName} willResignActive")
     }
-  }
+
+    interface Listener {
+        fun detachDeliveryOrderRefinement()
+    }
+
+    inner class DeliveryPackageInfoListener : DeliveryPackageInfoInteractor.Listener {
+        override fun onBackButtonClicked() {
+            listener.detachDeliveryOrderRefinement()
+        }
+
+        override fun onShowOrderSummaryButtonClicked() {
+            router.attachDeliveryOrderSummary()
+        }
+    }
 }

@@ -30,83 +30,79 @@ import javax.inject.Qualifier
 import javax.inject.Scope
 import kotlin.annotation.AnnotationRetention.BINARY
 
-class DeliveryOrderSummaryBuilder(dependency: ParentComponent) : ViewBuilder<DeliveryOrderSummaryView, DeliveryOrderSummaryRouter, DeliveryOrderSummaryBuilder.ParentComponent>(dependency) {
+class DeliveryOrderSummaryBuilder(
+    dependency: ParentComponent
+) : ViewBuilder<DeliveryOrderSummaryView, DeliveryOrderSummaryRouter, DeliveryOrderSummaryBuilder.ParentComponent>(dependency) {
 
-  fun build(parentViewGroup: ViewGroup): DeliveryOrderSummaryRouter {
-    val view = createView(parentViewGroup)
-    val interactor =
-      DeliveryOrderSummaryInteractor()
-    val component = DaggerDeliveryOrderSummaryBuilder_Component.builder()
-        .parentComponent(dependency)
-        .view(view)
-        .interactor(interactor)
-        .build()
-    return component.deliveryOrderSummaryRouter()
-  }
+    fun build(parentViewGroup: ViewGroup): DeliveryOrderSummaryRouter {
+        val view = createView(parentViewGroup)
+        val interactor = DeliveryOrderSummaryInteractor()
+        val component = DaggerDeliveryOrderSummaryBuilder_Component.builder()
+            .parentComponent(dependency)
+            .view(view)
+            .interactor(interactor)
+            .build()
+        return component.deliveryOrderSummaryRouter()
+    }
 
-  override fun inflateView(inflater: LayoutInflater, parentViewGroup: ViewGroup): DeliveryOrderSummaryView? {
-    return inflater.inflate(R.layout.rib_delivery_order_summary, parentViewGroup, false) as DeliveryOrderSummaryView
-  }
+    override fun inflateView(inflater: LayoutInflater, parentViewGroup: ViewGroup): DeliveryOrderSummaryView? {
+        return inflater.inflate(R.layout.rib_delivery_order_summary, parentViewGroup, false) as DeliveryOrderSummaryView
+    }
 
-  interface ParentComponent {
-    fun rootRouter(): RootRouter
-  }
-
-  @dagger.Module
-  abstract class Module {
-
-    @DeliveryOrderSummaryScope
-    @Binds
-    abstract fun presenter(view: DeliveryOrderSummaryView): DeliveryOrderSummaryInteractor.Presenter
+    interface ParentComponent {
+        fun rootRouter(): RootRouter
+    }
 
     @dagger.Module
-    companion object {
+    abstract class Module {
 
-      @DeliveryOrderSummaryScope
-      @Provides
-      @JvmStatic
-      fun router(
-        component: Component,
-        view: DeliveryOrderSummaryView,
-        interactor: DeliveryOrderSummaryInteractor
-      ): DeliveryOrderSummaryRouter {
-        return DeliveryOrderSummaryRouter(
-          view,
-          interactor,
-          component
-        )
-      }
+        @DeliveryOrderSummaryScope
+        @Binds
+        abstract fun presenter(view: DeliveryOrderSummaryView): DeliveryOrderSummaryInteractor.Presenter
+
+        @dagger.Module
+        companion object {
+
+            @DeliveryOrderSummaryScope
+            @Provides
+            @JvmStatic
+            fun router(
+                component: Component,
+                view: DeliveryOrderSummaryView,
+                interactor: DeliveryOrderSummaryInteractor
+            ): DeliveryOrderSummaryRouter {
+                return DeliveryOrderSummaryRouter(view, interactor, component)
+            }
+        }
     }
-  }
 
-  @DeliveryOrderSummaryScope
-  @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
-  interface Component : InteractorBaseComponent<DeliveryOrderSummaryInteractor>,
-    BuilderComponent {
+    @DeliveryOrderSummaryScope
+    @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
+    interface Component : InteractorBaseComponent<DeliveryOrderSummaryInteractor>, BuilderComponent {
 
-    @dagger.Component.Builder
-    interface Builder {
-      @BindsInstance
-      fun interactor(interactor: DeliveryOrderSummaryInteractor): Builder
+        @dagger.Component.Builder
+        interface Builder {
+            @BindsInstance
+            fun interactor(interactor: DeliveryOrderSummaryInteractor): Builder
 
-      @BindsInstance
-      fun view(view: DeliveryOrderSummaryView): Builder
+            @BindsInstance
+            fun view(view: DeliveryOrderSummaryView): Builder
 
-      fun parentComponent(component: ParentComponent): Builder
+            fun parentComponent(component: ParentComponent): Builder
 
-      fun build(): Component
+            fun build(): Component
+        }
     }
-  }
 
-  interface BuilderComponent {
-    fun deliveryOrderSummaryRouter(): DeliveryOrderSummaryRouter
-  }
+    interface BuilderComponent {
+        fun deliveryOrderSummaryRouter(): DeliveryOrderSummaryRouter
+    }
 
-  @Scope
-  @kotlin.annotation.Retention(BINARY)
-  annotation class DeliveryOrderSummaryScope
+    @Scope
+    @kotlin.annotation.Retention(BINARY)
+    annotation class DeliveryOrderSummaryScope
 
-  @Qualifier
-  @kotlin.annotation.Retention(BINARY)
-  annotation class DeliveryOrderSummaryInternal
+    @Qualifier
+    @kotlin.annotation.Retention(BINARY)
+    annotation class DeliveryOrderSummaryInternal
 }

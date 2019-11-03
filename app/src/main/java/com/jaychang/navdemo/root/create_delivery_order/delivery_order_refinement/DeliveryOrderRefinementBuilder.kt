@@ -32,95 +32,99 @@ import javax.inject.Qualifier
 import javax.inject.Scope
 import kotlin.annotation.AnnotationRetention.BINARY
 
-class DeliveryOrderRefinementBuilder(dependency: ParentComponent) : Builder<DeliveryOrderRefinementRouter, DeliveryOrderRefinementBuilder.ParentComponent>(dependency) {
+class DeliveryOrderRefinementBuilder(
+    dependency: ParentComponent
+) : Builder<DeliveryOrderRefinementRouter, DeliveryOrderRefinementBuilder.ParentComponent>(dependency) {
 
-  fun build(): DeliveryOrderRefinementRouter {
-    val interactor = DeliveryOrderRefinementInteractor()
-    val component = DaggerDeliveryOrderRefinementBuilder_Component.builder()
-        .parentComponent(dependency)
-        .interactor(interactor)
-        .build()
-    return component.deliveryOrderRefinementRouter()
-  }
+    fun build(): DeliveryOrderRefinementRouter {
+        val interactor = DeliveryOrderRefinementInteractor()
+        val component = DaggerDeliveryOrderRefinementBuilder_Component.builder()
+            .parentComponent(dependency)
+            .interactor(interactor)
+            .build()
+        return component.deliveryOrderRefinementRouter()
+    }
 
-  interface ParentComponent {
-    fun screenStack(): ScreenStack
+    interface ParentComponent {
+        fun screenStack(): ScreenStack
 
-    fun rootView(): RootView
+        fun rootView(): RootView
 
-    fun rootRouter(): RootRouter
+        fun rootRouter(): RootRouter
 
-    fun listener(): DeliveryOrderRefinementInteractor.Listener
-  }
-
-  @dagger.Module
-  abstract class Module {
+        fun listener(): DeliveryOrderRefinementInteractor.Listener
+    }
 
     @dagger.Module
-    companion object {
+    abstract class Module {
 
-      @DeliveryOrderRefinementScope
-      @Provides
-      @JvmStatic
-      fun presenter() = EmptyPresenter()
-      
-      @DeliveryOrderRefinementScope
-      @Provides
-      @JvmStatic
-      fun deliveryPackageInfoListener(interactor: DeliveryOrderRefinementInteractor): DeliveryPackageInfoInteractor.Listener {
-        return interactor.DeliveryPackageInfoListener()
-      }
+        @dagger.Module
+        companion object {
 
-      @DeliveryOrderRefinementScope
-      @Provides
-      @JvmStatic
-      fun router(
-          component: Component,
-          interactor: DeliveryOrderRefinementInteractor,
-          view: RootView,
-          screenStack: ScreenStack
-      ): DeliveryOrderRefinementRouter {
-        val deliveryPackageInfoBuilder = DeliveryPackageInfoBuilder(component)
-        val deliveryOrderSummaryBuilder = DeliveryOrderSummaryBuilder(component)
-        return DeliveryOrderRefinementRouter(
-          view,
-          interactor,
-          component,
-          deliveryPackageInfoBuilder,
-          deliveryOrderSummaryBuilder,
-          screenStack
-        )
-      }
+            @DeliveryOrderRefinementScope
+            @Provides
+            @JvmStatic
+            fun presenter() = EmptyPresenter()
+
+            @DeliveryOrderRefinementScope
+            @Provides
+            @JvmStatic
+            fun deliveryPackageInfoListener(interactor: DeliveryOrderRefinementInteractor): DeliveryPackageInfoInteractor.Listener {
+                return interactor.DeliveryPackageInfoListener()
+            }
+
+            @DeliveryOrderRefinementScope
+            @Provides
+            @JvmStatic
+            fun router(
+                component: Component,
+                interactor: DeliveryOrderRefinementInteractor,
+                rootView: RootView,
+                deliveryPackageInfoListener: DeliveryPackageInfoInteractor.Listener,
+                screenStack: ScreenStack
+            ): DeliveryOrderRefinementRouter {
+                val deliveryPackageInfoBuilder = DeliveryPackageInfoBuilder(component)
+                val deliveryOrderSummaryBuilder = DeliveryOrderSummaryBuilder(component)
+                return DeliveryOrderRefinementRouter(
+                    interactor,
+                    component,
+                    rootView,
+                    deliveryPackageInfoListener,
+                    deliveryPackageInfoBuilder,
+                    deliveryOrderSummaryBuilder,
+                    screenStack
+                )
+            }
+        }
     }
-  }
 
-  @DeliveryOrderRefinementScope
-  @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
-  interface Component : InteractorBaseComponent<DeliveryOrderRefinementInteractor>,
-    DeliveryPackageInfoBuilder.ParentComponent,
-    DeliveryOrderSummaryBuilder.ParentComponent,
-    BuilderComponent {
+    @DeliveryOrderRefinementScope
+    @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
+    interface Component : InteractorBaseComponent<DeliveryOrderRefinementInteractor>,
+        DeliveryPackageInfoBuilder.ParentComponent,
+        DeliveryOrderSummaryBuilder.ParentComponent,
+        BuilderComponent {
 
-    @dagger.Component.Builder
-    interface Builder {
-      @BindsInstance
-      fun interactor(interactor: DeliveryOrderRefinementInteractor): Builder
+        @dagger.Component.Builder
+        interface Builder {
+            @BindsInstance
+            fun interactor(interactor: DeliveryOrderRefinementInteractor): Builder
 
-      fun parentComponent(component: ParentComponent): Builder
+            fun parentComponent(component: ParentComponent): Builder
 
-      fun build(): Component
+            fun build(): Component
+        }
     }
-  }
 
-  interface BuilderComponent {
-    fun deliveryOrderRefinementRouter(): DeliveryOrderRefinementRouter
-  }
+    interface BuilderComponent {
+        fun deliveryOrderRefinementRouter(): DeliveryOrderRefinementRouter
+    }
 
-  @Scope
-  @kotlin.annotation.Retention(BINARY)
-  annotation class DeliveryOrderRefinementScope
+    @Scope
+    @kotlin.annotation.Retention(BINARY)
+    annotation class DeliveryOrderRefinementScope
 
-  @Qualifier
-  @kotlin.annotation.Retention(BINARY)
-  annotation class DeliveryOrderRefinementInternal
+    @Qualifier
+    @kotlin.annotation.Retention(BINARY)
+    annotation class DeliveryOrderRefinementInternal
 }

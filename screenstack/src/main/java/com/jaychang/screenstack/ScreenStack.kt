@@ -119,6 +119,7 @@ class ScreenStack(
     }
 
     private fun popToIndex(index: Int, transition: Transition) {
+        if (index == -1) return
         popScreenInternal(transition) {
             if (index !in 0..size()) error("invalid index: $index")
             while (size() - 1 > index) {
@@ -209,6 +210,7 @@ class ScreenStack(
     }
 
     private fun dismissToIndex(index: Int, transition: Transition) {
+        if (index == -1) return
         dismissScreenInternal(transition) {
             if (index !in 0..size()) error("invalid index: $index")
             while (size() - 1 > index) {
@@ -284,6 +286,8 @@ class ScreenStack(
 
     private fun currentViewProvider() = backStack.peek()?.screen
 
+    fun isRoot() = size() <= 1
+
     /**
      * Total number of transactions in the stack.
      * */
@@ -293,7 +297,7 @@ class ScreenStack(
      * Pop or dismiss the current screen.
      * */
     fun handleBackPress(): Boolean {
-        if (backStack.size <= 1) return false
+        if (isRoot()) return false
 
         val transaction = backStack.peek()
         val transition = transaction.transition

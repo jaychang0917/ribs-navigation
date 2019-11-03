@@ -17,19 +17,21 @@
 
 package com.jaychang.navdemo.root.create_delivery_order
 
+import com.jaychang.navdemo.RouterEx
 import com.jaychang.navdemo.root.RootView
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.DeliveryOrderRefinementBuilder
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.DeliveryOrderRefinementRouter
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoScreen
 import com.jaychang.navdemo.root.create_delivery_order.delivery_select_time.DeliverySelectTimeBuilder
+import com.jaychang.navdemo.root.create_delivery_order.delivery_select_time.DeliverySelectTimeInteractor
 import com.jaychang.navdemo.root.create_delivery_order.delivery_select_time.DeliverySelectTimeScreen
-import com.jaychang.navdemo.RouterEx
 import com.jaychang.screenstack.ScreenStack
 
 class CreateDeliveryOrderRouter(
-    private val view: RootView,
     interactor: CreateDeliveryOrderInteractor,
     component: CreateDeliveryOrderBuilder.Component,
+    private val rootView: RootView,
+    private val deliverySelectTimeListener: DeliverySelectTimeInteractor.Listener,
     private val deliverySelectTimeBuilder: DeliverySelectTimeBuilder,
     private val deliveryOrderRefinementBuilder: DeliveryOrderRefinementBuilder,
     private val screenStack: ScreenStack
@@ -37,8 +39,8 @@ class CreateDeliveryOrderRouter(
     private var deliveryOrderRefinementRouter: DeliveryOrderRefinementRouter? = null
 
     fun attachDeliverySelectTime() {
-        val router = deliverySelectTimeBuilder.build(view)
-        val screen = DeliverySelectTimeScreen(router.view)
+        val router = deliverySelectTimeBuilder.build(rootView)
+        val screen = DeliverySelectTimeScreen(router.view, deliverySelectTimeListener)
         observeScreenEvent(screen, router)
         screenStack.pushScreen(screen)
     }

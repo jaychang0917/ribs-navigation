@@ -29,83 +29,79 @@ import javax.inject.Qualifier
 import javax.inject.Scope
 import kotlin.annotation.AnnotationRetention.BINARY
 
-class DeliveryPackageInfoBuilder(dependency: ParentComponent) : ViewBuilder<DeliveryPackageInfoView, DeliveryPackageInfoRouter, DeliveryPackageInfoBuilder.ParentComponent>(dependency) {
+class DeliveryPackageInfoBuilder(
+    dependency: ParentComponent
+) : ViewBuilder<DeliveryPackageInfoView, DeliveryPackageInfoRouter, DeliveryPackageInfoBuilder.ParentComponent>(dependency) {
 
-  fun build(parentViewGroup: ViewGroup): DeliveryPackageInfoRouter {
-    val view = createView(parentViewGroup)
-    val interactor =
-      DeliveryPackageInfoInteractor()
-    val component = DaggerDeliveryPackageInfoBuilder_Component.builder()
-        .parentComponent(dependency)
-        .view(view)
-        .interactor(interactor)
-        .build()
-    return component.deliveryPackageInfoRouter()
-  }
+    fun build(parentViewGroup: ViewGroup): DeliveryPackageInfoRouter {
+        val view = createView(parentViewGroup)
+        val interactor = DeliveryPackageInfoInteractor()
+        val component = DaggerDeliveryPackageInfoBuilder_Component.builder()
+            .parentComponent(dependency)
+            .view(view)
+            .interactor(interactor)
+            .build()
+        return component.deliveryPackageInfoRouter()
+    }
 
-  override fun inflateView(inflater: LayoutInflater, parentViewGroup: ViewGroup): DeliveryPackageInfoView? {
-    return inflater.inflate(R.layout.rib_delivery_package_info, parentViewGroup, false) as DeliveryPackageInfoView
-  }
+    override fun inflateView(inflater: LayoutInflater, parentViewGroup: ViewGroup): DeliveryPackageInfoView? {
+        return inflater.inflate(R.layout.rib_delivery_package_info, parentViewGroup, false) as DeliveryPackageInfoView
+    }
 
-  interface ParentComponent {
-    fun deliveryPackageInfoListener(): DeliveryPackageInfoInteractor.Listener
-  }
-
-  @dagger.Module
-  abstract class Module {
-
-    @DeliveryPackageInfoScope
-    @Binds
-    abstract fun presenter(view: DeliveryPackageInfoView): DeliveryPackageInfoInteractor.Presenter
+    interface ParentComponent {
+        fun deliveryPackageInfoListener(): DeliveryPackageInfoInteractor.Listener
+    }
 
     @dagger.Module
-    companion object {
+    abstract class Module {
 
-      @DeliveryPackageInfoScope
-      @Provides
-      @JvmStatic
-      fun router(
-        component: Component,
-        view: DeliveryPackageInfoView,
-        interactor: DeliveryPackageInfoInteractor
-      ): DeliveryPackageInfoRouter {
-        return DeliveryPackageInfoRouter(
-          view,
-          interactor,
-          component
-        )
-      }
+        @DeliveryPackageInfoScope
+        @Binds
+        abstract fun presenter(view: DeliveryPackageInfoView): DeliveryPackageInfoInteractor.Presenter
+
+        @dagger.Module
+        companion object {
+
+            @DeliveryPackageInfoScope
+            @Provides
+            @JvmStatic
+            fun router(
+                component: Component,
+                view: DeliveryPackageInfoView,
+                interactor: DeliveryPackageInfoInteractor
+            ): DeliveryPackageInfoRouter {
+                return DeliveryPackageInfoRouter(view, interactor, component)
+            }
+        }
     }
-  }
 
-  @DeliveryPackageInfoScope
-  @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
-  interface Component : InteractorBaseComponent<DeliveryPackageInfoInteractor>,
-    BuilderComponent {
+    @DeliveryPackageInfoScope
+    @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
+    interface Component : InteractorBaseComponent<DeliveryPackageInfoInteractor>, BuilderComponent {
 
-    @dagger.Component.Builder
-    interface Builder {
-      @BindsInstance
-      fun interactor(interactor: DeliveryPackageInfoInteractor): Builder
+        @dagger.Component.Builder
+        interface Builder {
+            @BindsInstance
+            fun interactor(interactor: DeliveryPackageInfoInteractor): Builder
 
-      @BindsInstance
-      fun view(view: DeliveryPackageInfoView): Builder
+            @BindsInstance
+            fun view(view: DeliveryPackageInfoView): Builder
 
-      fun parentComponent(component: ParentComponent): Builder
+            fun parentComponent(component: ParentComponent): Builder
 
-      fun build(): Component
+            fun build(): Component
+        }
     }
-  }
 
-  interface BuilderComponent {
-    fun deliveryPackageInfoRouter(): DeliveryPackageInfoRouter
-  }
+    interface BuilderComponent {
+        fun deliveryPackageInfoRouter(): DeliveryPackageInfoRouter
+    }
 
-  @Scope
-  @kotlin.annotation.Retention(BINARY)
-  annotation class DeliveryPackageInfoScope
+    @Scope
+    @kotlin.annotation.Retention(BINARY)
+    annotation class DeliveryPackageInfoScope
 
-  @Qualifier
-  @kotlin.annotation.Retention(BINARY)
-  annotation class DeliveryPackageInfoInternal
+    @Qualifier
+    @kotlin.annotation.Retention(BINARY)
+    annotation class DeliveryPackageInfoInternal
 }

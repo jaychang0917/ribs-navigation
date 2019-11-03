@@ -21,6 +21,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.uber.rib.core.screenstack.ViewProvider
 
-class DeliverySelectTimeScreen(private val view: DeliverySelectTimeView) : ViewProvider() {
+class DeliverySelectTimeScreen(
+    private val view: DeliverySelectTimeView,
+    private val listener: DeliverySelectTimeInteractor.Listener
+) : ViewProvider() {
     override fun buildView(parentView: ViewGroup): View = view
+
+    override fun onBackPress(): Boolean {
+        listener.onBackButtonClicked()
+        return true
+    }
 }

@@ -26,39 +26,39 @@ import javax.inject.Inject
 @RibInteractor
 class DeliveryPackageInfoInteractor : Interactor<DeliveryPackageInfoInteractor.Presenter, DeliveryPackageInfoRouter>() {
 
-  @Inject
-  lateinit var presenter: Presenter
+    @Inject
+    lateinit var presenter: Presenter
 
-  @Inject
-  lateinit var listener: Listener
+    @Inject
+    lateinit var listener: Listener
 
-  override fun didBecomeActive(savedInstanceState: Bundle?) {
-    super.didBecomeActive(savedInstanceState)
-    presenter.backButtonClicks()
-      .subscribe {
-        listener.onBackButtonClicked()
-      }
+    override fun didBecomeActive(savedInstanceState: Bundle?) {
+        super.didBecomeActive(savedInstanceState)
+        presenter.backButtonClicks()
+            .subscribe {
+                listener.onBackButtonClicked()
+            }
 
-    presenter.showOrderSummaryButtonClicks()
-      .subscribe {
-        listener.onShowOrderSummaryButtonClicked()
-      }
-  }
+        presenter.showOrderSummaryButtonClicks()
+            .subscribe {
+                listener.onShowOrderSummaryButtonClicked()
+            }
+    }
 
-  override fun willResignActive() {
-    super.willResignActive()
-    println("${javaClass.simpleName} willResignActive")
-  }
+    override fun willResignActive() {
+        super.willResignActive()
+        println("${javaClass.simpleName} willResignActive")
+    }
 
-  interface Presenter {
-    fun backButtonClicks(): Observable<Unit>
+    interface Presenter {
+        fun backButtonClicks(): Observable<Unit>
 
-    fun showOrderSummaryButtonClicks(): Observable<Unit>
-  }
+        fun showOrderSummaryButtonClicks(): Observable<Unit>
+    }
 
-  interface Listener {
-    fun onBackButtonClicked()
+    interface Listener {
+        fun onBackButtonClicked()
 
-    fun onShowOrderSummaryButtonClicked()
-  }
+        fun onShowOrderSummaryButtonClicked()
+    }
 }

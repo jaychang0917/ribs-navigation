@@ -17,26 +17,28 @@
 
 package com.jaychang.navdemo.root.payment
 
+import com.jaychang.navdemo.RouterEx
 import com.jaychang.navdemo.root.RootView
 import com.jaychang.navdemo.root.payment.add_credit_card.AddCreditCardBuilder
 import com.jaychang.navdemo.root.payment.add_credit_card.AddCreditCardScreen
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentBuilder
+import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentInteractor
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentScreen
-import com.jaychang.navdemo.RouterEx
 import com.jaychang.screenstack.ScreenStack
 import com.jaychang.screenstack.VerticalTransition
 
 class PaymentRouter(
-    private val view: RootView,
     interactor: PaymentInteractor,
     component: PaymentBuilder.Component,
+    private val rootView: RootView,
+    private val selectPaymentListener: SelectPaymentInteractor.Listener,
     private val selectPaymentBuilder: SelectPaymentBuilder,
     private val addCreditCardBuilder: AddCreditCardBuilder,
     private val screenStack: ScreenStack
 ) : RouterEx<PaymentInteractor, PaymentBuilder.Component>(interactor, component) {
     fun attachSelectPayment() {
-        val router = selectPaymentBuilder.build(view)
-        val screen = SelectPaymentScreen(router.view, interactor.listener)
+        val router = selectPaymentBuilder.build(rootView)
+        val screen = SelectPaymentScreen(router.view, selectPaymentListener)
         observeScreenEvent(screen, router)
         screenStack.presentScreen(screen, VerticalTransition())
     }
@@ -46,7 +48,7 @@ class PaymentRouter(
     }
 
     fun attachAddCreditCard() {
-        val router = addCreditCardBuilder.build(view)
+        val router = addCreditCardBuilder.build(rootView)
         val screen = AddCreditCardScreen(router.view)
         observeScreenEvent(screen, router)
         screenStack.pushScreen(screen)

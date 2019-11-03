@@ -27,26 +27,26 @@ import javax.inject.Inject
 @RibInteractor
 class DeliveryOrderSummaryInteractor : Interactor<DeliveryOrderSummaryInteractor.Presenter, DeliveryOrderSummaryRouter>() {
 
-  @Inject
-  lateinit var presenter: Presenter
+    @Inject
+    lateinit var presenter: Presenter
 
-  @Inject
-  lateinit var rootRouter: RootRouter
+    @Inject
+    lateinit var rootRouter: RootRouter
 
-  override fun didBecomeActive(savedInstanceState: Bundle?) {
-    super.didBecomeActive(savedInstanceState)
-    presenter.selectPaymentButtonClicks()
-      .subscribe {
-        rootRouter.attachPayment()
-      }
-  }
+    override fun didBecomeActive(savedInstanceState: Bundle?) {
+        super.didBecomeActive(savedInstanceState)
+        presenter.selectPaymentButtonClicks()
+            .subscribe {
+                rootRouter.attachPayment()
+            }
+    }
 
-  override fun willResignActive() {
-    super.willResignActive()
-    println("${javaClass.simpleName} willResignActive")
-  }
+    override fun willResignActive() {
+        super.willResignActive()
+        println("${javaClass.simpleName} willResignActive")
+    }
 
-  interface Presenter {
-    fun selectPaymentButtonClicks(): Observable<Unit>
-  }
+    interface Presenter {
+        fun selectPaymentButtonClicks(): Observable<Unit>
+    }
 }
