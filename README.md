@@ -40,7 +40,7 @@ fun detachDeliveryOrderRefinement() {
 ```
 
 ### <a name=present_dismiss>Present / dismiss screen(s)</a>
-In comparision to push/pop mechanism, `presentScreen()` doesn't removes the current view from parent ViewGroup, but `pushScreen()` does. Use this if you want to stack a screen on top of current screen.
+In comparision to push/pop mechanism, `presentScreen()` doesn't remove the current view from parent ViewGroup, but `pushScreen()` does. Use this if you want to stack a screen on top of current screen.
 
 ### <a name=back_nav>Back Navigation</a>
 To support back navigation, 
