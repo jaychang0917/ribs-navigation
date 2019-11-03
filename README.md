@@ -88,6 +88,8 @@ class AwesomeTransition : Transition {
         // your imagination here
     }
 }
+
+screenStack.pushScreen(screen, AwesomeTransition())
 ```
 
 ## References
