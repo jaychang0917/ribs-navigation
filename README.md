@@ -74,7 +74,7 @@ class SelectPaymentScreen(
 ```
 
 ### <a name=transition>Transition</a>
-Each push/pop/present/dismiss operation accepts a `Transiton` as an argument. If it is not provided, the default transition provided in `ScreenStack` will be used. No transition will be used by default.
+Each push/pop/present/dismiss function accepts a `Transiton` as an argument. If it is not provided, the default transition provided in `ScreenStack` will be used. No transition will be used by default.
 ```kotlin
 @RootScope
 @Provides
