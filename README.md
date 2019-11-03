@@ -2,6 +2,8 @@
 
 This repo aims to demostrate a solution to handle navigation with RIBs for Android. 
 
+<img src="https://github.com/jaychang0917/ribs-navigation/blob/master/arts/demo.gif" width="296" height="414"> | <img src="https://github.com/jaychang0917/ribs-navigation/blob/master/arts/rib-tree.png" width="330" height="300">
+
 ## Table of Contents
 * [Push / pop screen(s)](#push_pop)
 * [Present / dismiss screen(s)](#present_dismiss)
