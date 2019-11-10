@@ -23,8 +23,8 @@ import com.jaychang.navdemo.root.create_delivery_order.delivery_select_time.Deli
 import com.jaychang.navdemo.root.payment.PaymentBuilder
 import com.jaychang.navdemo.root.payment.PaymentRouter
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentScreen
-import com.jaychang.screenstack.ScreenStack
-import com.jaychang.screenstack.VerticalTransition
+import com.jaychang.navigation.ScreenStack
+import com.jaychang.navigation.VerticalTransition
 import com.uber.rib.core.ViewRouter
 
 class RootRouter(

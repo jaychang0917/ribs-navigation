@@ -15,18 +15,18 @@
  *
  */
 
-package com.jaychang.screenstack
+package com.jaychang.navigation
 
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.doOnLayout
-import com.jaychang.screenstack.ScreenStack.Direction.BACKWARD
-import com.jaychang.screenstack.ScreenStack.Direction.FORWARD
-import com.jaychang.screenstack.ScreenStack.Transaction
-import com.jaychang.screenstack.ScreenStack.Transaction.Type.PRESENT
-import com.jaychang.screenstack.ScreenStack.Transaction.Type.PUSH
+import com.jaychang.navigation.ScreenStack.Direction.BACKWARD
+import com.jaychang.navigation.ScreenStack.Direction.FORWARD
+import com.jaychang.navigation.ScreenStack.Transaction
+import com.jaychang.navigation.ScreenStack.Transaction.Type.PRESENT
+import com.jaychang.navigation.ScreenStack.Transaction.Type.PUSH
 import com.uber.rib.core.screenstack.ViewProvider
 import java.util.*
 import kotlin.reflect.KClass

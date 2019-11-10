@@ -15,14 +15,14 @@
  *
  */
 
-package com.jaychang.screenstack
+package com.jaychang.navigation
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
-import com.jaychang.screenstack.ScreenStack.Direction
+import com.jaychang.navigation.ScreenStack.Direction
 
 class HorizontalTransition : Transition {
     override fun animate(from: View, to: View, direction: Direction, onAnimationEnd: () -> Unit) {

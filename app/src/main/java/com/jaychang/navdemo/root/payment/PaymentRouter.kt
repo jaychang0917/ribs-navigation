@@ -24,8 +24,8 @@ import com.jaychang.navdemo.root.payment.add_credit_card.AddCreditCardScreen
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentBuilder
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentInteractor
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentScreen
-import com.jaychang.screenstack.ScreenStack
-import com.jaychang.screenstack.VerticalTransition
+import com.jaychang.navigation.ScreenStack
+import com.jaychang.navigation.VerticalTransition
 
 class PaymentRouter(
     interactor: PaymentInteractor,

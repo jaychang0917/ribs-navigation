@@ -22,7 +22,7 @@ import com.jaychang.navdemo.root.payment.add_credit_card.AddCreditCardBuilder
 import com.jaychang.navdemo.root.payment.add_credit_card.AddCreditCardInteractor
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentBuilder
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentInteractor
-import com.jaychang.screenstack.ScreenStack
+import com.jaychang.navigation.ScreenStack
 import com.uber.rib.core.Builder
 import com.uber.rib.core.EmptyPresenter
 import com.uber.rib.core.InteractorBaseComponent

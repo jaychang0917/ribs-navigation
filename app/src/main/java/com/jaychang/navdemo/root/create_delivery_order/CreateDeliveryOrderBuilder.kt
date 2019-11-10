@@ -23,7 +23,7 @@ import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.DeliveryOrderRefinementInteractor
 import com.jaychang.navdemo.root.create_delivery_order.delivery_select_time.DeliverySelectTimeBuilder
 import com.jaychang.navdemo.root.create_delivery_order.delivery_select_time.DeliverySelectTimeInteractor
-import com.jaychang.screenstack.ScreenStack
+import com.jaychang.navigation.ScreenStack
 import com.uber.rib.core.Builder
 import com.uber.rib.core.EmptyPresenter
 import com.uber.rib.core.InteractorBaseComponent

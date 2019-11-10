@@ -24,8 +24,8 @@ import com.jaychang.navdemo.root.create_delivery_order.CreateDeliveryOrderBuilde
 import com.jaychang.navdemo.root.create_delivery_order.CreateDeliveryOrderInteractor
 import com.jaychang.navdemo.root.payment.PaymentBuilder
 import com.jaychang.navdemo.root.payment.PaymentInteractor
-import com.jaychang.screenstack.HorizontalTransition
-import com.jaychang.screenstack.ScreenStack
+import com.jaychang.navigation.HorizontalTransition
+import com.jaychang.navigation.ScreenStack
 import com.uber.rib.core.InteractorBaseComponent
 import com.uber.rib.core.ViewBuilder
 import dagger.BindsInstance

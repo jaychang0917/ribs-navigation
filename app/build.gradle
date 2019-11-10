@@ -33,5 +33,5 @@ dependencies {
     implementation 'com.uber.rib:rib-android:0.9.1'
     implementation "com.google.dagger:dagger:2.24"
     kapt "com.google.dagger:dagger-compiler:2.24"
-    implementation project(path: ':screenstack')
+    implementation project(path: ':navigation')
 }

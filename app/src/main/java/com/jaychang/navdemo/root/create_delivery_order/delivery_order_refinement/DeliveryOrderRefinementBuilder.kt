@@ -22,7 +22,7 @@ import com.jaychang.navdemo.root.RootView
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_order_summary.DeliveryOrderSummaryBuilder
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoBuilder
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoInteractor
-import com.jaychang.screenstack.ScreenStack
+import com.jaychang.navigation.ScreenStack
 import com.uber.rib.core.Builder
 import com.uber.rib.core.EmptyPresenter
 import com.uber.rib.core.InteractorBaseComponent

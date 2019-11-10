@@ -15,7 +15,7 @@
  *
  */
 
-package com.jaychang.screenstack
+package com.jaychang.navigation
 
 import android.view.View
 

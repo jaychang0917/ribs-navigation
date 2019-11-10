@@ -24,8 +24,8 @@ import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoBuilder
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoInteractor
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoScreen
-import com.jaychang.screenstack.ScreenStack
-import com.jaychang.screenstack.VerticalTransition
+import com.jaychang.navigation.ScreenStack
+import com.jaychang.navigation.VerticalTransition
 
 class DeliveryOrderRefinementRouter(
     interactor: DeliveryOrderRefinementInteractor,
