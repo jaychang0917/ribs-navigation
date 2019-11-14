@@ -73,7 +73,7 @@ class ScreenStack(
     private fun pushScreenInternal(transition: Transition, backStackOp: () -> Unit) {
         val from = currentScreen()
         backStackOp()
-        val to = addCurrentScreen()
+        val to = addCurrentScreen(FORWARD)
         animate(from, to, FORWARD, transition, true)
     }
 
@@ -133,7 +133,7 @@ class ScreenStack(
     private fun popScreenInternal(transition: Transition, backStackOp: () -> Unit) {
         val from = currentScreen()
         backStackOp()
-        val to = addCurrentScreen()
+        val to = addCurrentScreen(BACKWARD)
         animate(from, to, BACKWARD, transition, true)
     }
 
@@ -166,7 +166,7 @@ class ScreenStack(
     private fun presentScreenInternal(transition: Transition, backStackOp: () -> Unit) {
         val from = currentScreen()
         backStackOp()
-        val to = addCurrentScreen()
+        val to = addCurrentScreen(FORWARD)
         animate(from, to, FORWARD, transition, false)
     }
 
@@ -233,10 +233,10 @@ class ScreenStack(
         return reversed().indexOfLast { it.screen::class == screen } - indexOffset
     }
 
-    private fun addCurrentScreen(): View? {
+    private fun addCurrentScreen(direction: Direction): View? {
         val screen = currentViewProvider() ?: return null
         val view = screen.buildView(parentViewGroup)
-        val index = parentViewGroup.childCount
+        val index = if (direction == FORWARD) parentViewGroup.childCount else parentViewGroup.childCount - 1
         parentViewGroup.addView(view, index)
         return view
     }
