@@ -24,7 +24,6 @@ import com.jaychang.navdemo.root.payment.PaymentBuilder
 import com.jaychang.navdemo.root.payment.PaymentRouter
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentScreen
 import com.jaychang.navigation.ScreenStack
-import com.jaychang.navigation.VerticalTransition
 import com.uber.rib.core.ViewRouter
 
 class RootRouter(
@@ -60,7 +59,7 @@ class RootRouter(
     fun detachPayment() {
         val router = paymentRouter ?: return
         detachChild(router)
-        screenStack.dismissToScreen(SelectPaymentScreen::class, true, VerticalTransition())
+        screenStack.dismissToScreen(SelectPaymentScreen::class, true)
         paymentRouter = null
     }
 

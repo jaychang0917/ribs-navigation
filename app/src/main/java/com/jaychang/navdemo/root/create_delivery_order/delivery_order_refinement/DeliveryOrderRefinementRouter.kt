@@ -25,7 +25,6 @@ import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoInteractor
 import com.jaychang.navdemo.root.create_delivery_order.delivery_order_refinement.delivery_package_info.DeliveryPackageInfoScreen
 import com.jaychang.navigation.ScreenStack
-import com.jaychang.navigation.VerticalTransition
 
 class DeliveryOrderRefinementRouter(
     interactor: DeliveryOrderRefinementInteractor,
@@ -52,7 +51,7 @@ class DeliveryOrderRefinementRouter(
         val router = deliveryOrderSummaryBuilder.build(rootView)
         val screen = DeliveryOrderSummaryScreen(router.view)
         observeScreenEvent(screen, router)
-        screenStack.presentScreen(screen, VerticalTransition())
+        screenStack.presentScreen(screen)
     }
 
     fun detachDeliveryOrderSummary() {

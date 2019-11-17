@@ -26,6 +26,7 @@ import com.jaychang.navdemo.root.payment.PaymentBuilder
 import com.jaychang.navdemo.root.payment.PaymentInteractor
 import com.jaychang.navigation.HorizontalTransition
 import com.jaychang.navigation.ScreenStack
+import com.jaychang.navigation.VerticalTransition
 import com.uber.rib.core.InteractorBaseComponent
 import com.uber.rib.core.ViewBuilder
 import dagger.BindsInstance
@@ -69,7 +70,11 @@ class RootBuilder(
             @RootScope
             @Provides
             @JvmStatic
-            fun screenStack(view: RootView) = ScreenStack(view) { HorizontalTransition() }
+            fun screenStack(view: RootView) = ScreenStack(
+                parentViewGroup = view,
+                defaultPushTransitionProvider = { HorizontalTransition() },
+                defaultPresentTransitionProvider = { VerticalTransition() }
+            )
 
             @RootScope
             @Provides

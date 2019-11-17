@@ -25,7 +25,6 @@ import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentBuilder
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentInteractor
 import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentScreen
 import com.jaychang.navigation.ScreenStack
-import com.jaychang.navigation.VerticalTransition
 
 class PaymentRouter(
     interactor: PaymentInteractor,
@@ -40,11 +39,11 @@ class PaymentRouter(
         val router = selectPaymentBuilder.build(rootView)
         val screen = SelectPaymentScreen(router.view, selectPaymentListener)
         observeScreenEvent(screen, router)
-        screenStack.presentScreen(screen, VerticalTransition())
+        screenStack.presentScreen(screen)
     }
 
     fun detachSelectPayment() {
-        screenStack.dismissScreen(VerticalTransition())
+        screenStack.dismissScreen()
     }
 
     fun attachAddCreditCard() {

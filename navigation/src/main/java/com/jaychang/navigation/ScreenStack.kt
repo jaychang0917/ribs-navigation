@@ -36,7 +36,8 @@ import kotlin.reflect.KClass
  * */
 class ScreenStack(
     private val parentViewGroup: ViewGroup,
-    private val defaultTransitionProvider: () -> Transition = { NoTransition() }
+    private val defaultPushTransitionProvider: () -> Transition = { NoTransition() },
+    private val defaultPresentTransitionProvider: () -> Transition = { NoTransition() }
 ) : Iterable<Transaction> {
     private var isDebugModeEnabled = false
 
@@ -52,7 +53,7 @@ class ScreenStack(
      * @param shouldAnimate True if should animate using default transition, false otherwise.
      * */
     fun pushScreen(screen: ViewProvider, shouldAnimate: Boolean) {
-        pushScreen(screen, defaultOrNoTransition(shouldAnimate))
+        pushScreen(screen, defaultOrNoTransition(shouldAnimate, PUSH))
     }
 
     /**
@@ -62,7 +63,7 @@ class ScreenStack(
      * @param screen The screen to be added to the container.
      * @param transition The transition to be used, default one will be used if it is not provided.
      * */
-    fun pushScreen(screen: ViewProvider, transition: Transition = defaultTransitionProvider()) {
+    fun pushScreen(screen: ViewProvider, transition: Transition = defaultPushTransitionProvider()) {
         pushScreenInternal(transition) {
             onCurrentViewHidden()
             backStack.push(Transaction(screen, transition, PUSH))
@@ -83,7 +84,7 @@ class ScreenStack(
      *
      * @param transition The transition to be used, default one will be used if it is not provided.
      * */
-    fun popScreen(transition: Transition = defaultTransitionProvider()) {
+    fun popScreen(transition: Transition = defaultPushTransitionProvider()) {
         popScreenInternal(transition) {
             onCurrentViewRemoved()
             backStack.pop()
@@ -98,7 +99,7 @@ class ScreenStack(
      * @param shouldAnimate True if should animate using default transition, false otherwise.
      * */
     fun popScreen(shouldAnimate: Boolean) {
-        popScreen(defaultOrNoTransition(shouldAnimate))
+        popScreen(defaultOrNoTransition(shouldAnimate, PUSH))
     }
 
     /**
@@ -112,7 +113,7 @@ class ScreenStack(
     fun popToScreen(
         screen: KClass<out ViewProvider>,
         inclusive: Boolean = false,
-        transition: Transition = defaultTransitionProvider()
+        transition: Transition = defaultPushTransitionProvider()
     ) {
         val index = findScreenIndex(screen, inclusive)
         popToIndex(index, transition)
@@ -145,7 +146,7 @@ class ScreenStack(
      * @param shouldAnimate True if should animate using default transition, false otherwise.
      * */
     fun presentScreen(screen: ViewProvider, shouldAnimate: Boolean) {
-        presentScreen(screen, defaultOrNoTransition(shouldAnimate))
+        presentScreen(screen, defaultOrNoTransition(shouldAnimate, PRESENT))
     }
 
     /**
@@ -155,7 +156,10 @@ class ScreenStack(
      * @param screen The screen to be added to the container.
      * @param transition The transition to be used, default one will be used if it is not provided.
      * */
-    fun presentScreen(screen: ViewProvider, transition: Transition = defaultTransitionProvider()) {
+    fun presentScreen(
+        screen: ViewProvider,
+        transition: Transition = defaultPresentTransitionProvider()
+    ) {
         presentScreenInternal(transition) {
             onCurrentViewHidden()
             backStack.push(Transaction(screen, transition, PRESENT))
@@ -176,7 +180,7 @@ class ScreenStack(
      * @param shouldAnimate True if should animate using default transition, false otherwise.
      * */
     fun dimissScreen(shouldAnimate: Boolean) {
-        dismissScreen(defaultOrNoTransition(shouldAnimate))
+        dismissScreen(defaultOrNoTransition(shouldAnimate, PRESENT))
     }
 
     /**
@@ -184,7 +188,7 @@ class ScreenStack(
      *
      * @param transition The transition to be used, default one will be used if it is not provided.
      * */
-    fun dismissScreen(transition: Transition = defaultTransitionProvider()) {
+    fun dismissScreen(transition: Transition = defaultPresentTransitionProvider()) {
         dismissScreenInternal(transition) {
             onCurrentViewRemoved()
             backStack.pop()
@@ -203,7 +207,7 @@ class ScreenStack(
     fun dismissToScreen(
         screen: KClass<out ViewProvider>,
         inclusive: Boolean = false,
-        transition: Transition = defaultTransitionProvider()
+        transition: Transition = defaultPresentTransitionProvider()
     ) {
         val index = findScreenIndex(screen, inclusive)
         dismissToIndex(index, transition)
@@ -236,15 +240,24 @@ class ScreenStack(
     private fun addCurrentScreen(direction: Direction): View? {
         val screen = currentViewProvider() ?: return null
         val view = screen.buildView(parentViewGroup)
-        val index = if (direction == FORWARD) parentViewGroup.childCount else parentViewGroup.childCount - 1
+        val index =
+            if (direction == FORWARD) parentViewGroup.childCount else parentViewGroup.childCount - 1
         parentViewGroup.addView(view, index)
         return view
     }
 
     private fun currentScreen(): View? = parentViewGroup.children.lastOrNull()
 
-    private fun defaultOrNoTransition(shouldAnimate: Boolean) =
-        if (shouldAnimate) defaultTransitionProvider() else NoTransition()
+    private fun defaultOrNoTransition(shouldAnimate: Boolean, transactionType: Transaction.Type) =
+        if (shouldAnimate) {
+            if (transactionType == PUSH) {
+                defaultPushTransitionProvider()
+            } else {
+                defaultPushTransitionProvider()
+            }
+        } else {
+            NoTransition()
+        }
 
     private fun animate(
         from: View?,
