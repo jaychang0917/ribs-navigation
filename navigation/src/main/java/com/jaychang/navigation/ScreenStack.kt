@@ -253,7 +253,7 @@ class ScreenStack(
             if (transactionType == PUSH) {
                 defaultPushTransitionProvider()
             } else {
-                defaultPushTransitionProvider()
+                defaultPresentTransitionProvider()
             }
         } else {
             NoTransition()
