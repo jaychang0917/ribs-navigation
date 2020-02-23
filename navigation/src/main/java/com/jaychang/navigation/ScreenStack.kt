@@ -75,6 +75,7 @@ class ScreenStack(
         val from = currentScreen()
         backStackOp()
         val to = addCurrentScreen(FORWARD)
+        blockUnderneathViewClickEvent(to)
         animate(from, to, FORWARD, transition, true)
     }
 
@@ -171,7 +172,12 @@ class ScreenStack(
         val from = currentScreen()
         backStackOp()
         val to = addCurrentScreen(FORWARD)
+        blockUnderneathViewClickEvent(to)
         animate(from, to, FORWARD, transition, false)
+    }
+
+    private fun blockUnderneathViewClickEvent(view: View?) {
+        view?.setOnClickListener { Unit }
     }
 
     /**
@@ -230,6 +236,28 @@ class ScreenStack(
         backStackOp()
         val to = parentViewGroup.getChildAt(parentViewGroup.childCount - 2)
         animate(from, to, BACKWARD, transition, true)
+    }
+
+    /**
+     * Remove a specified screen from the screen stack.
+     *
+     * @param screen Target screen to be removed from the stack.
+     * */
+    fun removeScreen(screen: KClass<out ViewProvider>): Boolean {
+        val each = backStack.iterator()
+        var removed = false
+        var index = 0
+        while (each.hasNext()) {
+            if (each.next().screen::class == screen) {
+                each.remove()
+                parentViewGroup.removeViewAt(index)
+                removed = true
+                break
+            }
+            index++
+        }
+        logDebugState()
+        return removed
     }
 
     private fun findScreenIndex(screen: KClass<out ViewProvider>, inclusive: Boolean): Int {
