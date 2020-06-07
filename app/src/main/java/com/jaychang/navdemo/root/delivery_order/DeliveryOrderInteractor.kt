@@ -15,14 +15,21 @@
  *
  */
 
-package com.jaychang.navdemo.root
+package com.jaychang.navdemo.root.delivery_order
 
-import android.content.Context
-import android.util.AttributeSet
-import android.widget.FrameLayout
+import com.uber.rib.core.Bundle
+import com.uber.rib.core.EmptyPresenter
+import com.uber.rib.core.Interactor
+import com.uber.rib.core.RibInteractor
 
-class RootView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : FrameLayout(context, attrs, defStyle), RootInteractor.Presenter
+@RibInteractor
+class DeliveryOrderInteractor : Interactor<EmptyPresenter, DeliveryOrderRouter>() {
+
+    override fun didBecomeActive(savedInstanceState: Bundle?) {
+        super.didBecomeActive(savedInstanceState)
+    }
+
+    override fun willResignActive() {
+        super.willResignActive()
+    }
+}

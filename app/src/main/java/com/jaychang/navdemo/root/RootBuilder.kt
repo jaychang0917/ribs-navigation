@@ -20,10 +20,7 @@ package com.jaychang.navdemo.root
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.jaychang.navdemo.R
-import com.jaychang.navdemo.root.create_delivery_order.CreateDeliveryOrderBuilder
-import com.jaychang.navdemo.root.create_delivery_order.CreateDeliveryOrderInteractor
-import com.jaychang.navdemo.root.payment.PaymentBuilder
-import com.jaychang.navdemo.root.payment.PaymentInteractor
+import com.jaychang.navdemo.root.delivery_order.DeliveryOrderBuilder
 import com.jaychang.navigation.HorizontalTransition
 import com.jaychang.navigation.ScreenStack
 import com.jaychang.navigation.VerticalTransition
@@ -79,34 +76,18 @@ class RootBuilder(
             @RootScope
             @Provides
             @JvmStatic
-            fun createDeliveryOrderListener(interactor: RootInteractor): CreateDeliveryOrderInteractor.Listener {
-                return interactor.CreateDeliveryOrderListener()
-            }
-
-            @RootScope
-            @Provides
-            @JvmStatic
-            fun paymentListener(interactor: RootInteractor): PaymentInteractor.Listener {
-                return interactor.PaymentListener()
-            }
-
-            @RootScope
-            @Provides
-            @JvmStatic
             fun router(
                 rootView: RootView,
                 component: Component,
                 interactor: RootInteractor,
                 screenStack: ScreenStack
             ): RootRouter {
-                val createDeliveryOrderBuilder = CreateDeliveryOrderBuilder(component)
-                val paymentBuilder = PaymentBuilder(component)
+                val deliveryOrderBuilder = DeliveryOrderBuilder(component)
                 return RootRouter(
                     rootView,
                     interactor,
                     component,
-                    createDeliveryOrderBuilder,
-                    paymentBuilder,
+                    deliveryOrderBuilder,
                     screenStack
                 )
             }
@@ -116,8 +97,7 @@ class RootBuilder(
     @RootScope
     @dagger.Component(modules = [Module::class], dependencies = [ParentComponent::class])
     interface Component : InteractorBaseComponent<RootInteractor>,
-        CreateDeliveryOrderBuilder.ParentComponent,
-        PaymentBuilder.ParentComponent,
+        DeliveryOrderBuilder.ParentComponent,
         BuilderComponent {
 
         @dagger.Component.Builder
@@ -137,12 +117,12 @@ class RootBuilder(
     interface BuilderComponent {
         fun rootRouter(): RootRouter
     }
-
-    @Scope
-    @kotlin.annotation.Retention(BINARY)
-    annotation class RootScope
-
-    @Qualifier
-    @kotlin.annotation.Retention(BINARY)
-    annotation class RootInternal
 }
+
+@Scope
+@kotlin.annotation.Retention(BINARY)
+annotation class RootScope
+
+@Qualifier
+@kotlin.annotation.Retention(BINARY)
+annotation class RootInternal

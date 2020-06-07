@@ -17,12 +17,9 @@
 
 package com.jaychang.navdemo.root
 
-import com.jaychang.navdemo.root.create_delivery_order.CreateDeliveryOrderBuilder
-import com.jaychang.navdemo.root.create_delivery_order.CreateDeliveryOrderRouter
-import com.jaychang.navdemo.root.create_delivery_order.delivery_select_time.DeliverySelectTimeScreen
-import com.jaychang.navdemo.root.payment.PaymentBuilder
-import com.jaychang.navdemo.root.payment.PaymentRouter
-import com.jaychang.navdemo.root.payment.select_payment.SelectPaymentScreen
+import com.jaychang.navdemo.root.delivery_order.DeliveryOrderBuilder
+import com.jaychang.navdemo.root.delivery_order.DeliveryOrderRouter
+import com.jaychang.navdemo.root.delivery_order.pickup.PickupScreen
 import com.jaychang.navigation.ScreenStack
 import com.uber.rib.core.ViewRouter
 
@@ -30,37 +27,22 @@ class RootRouter(
     view: RootView,
     interactor: RootInteractor,
     component: RootBuilder.Component,
-    private val createDeliveryOrderBuilder: CreateDeliveryOrderBuilder,
-    private val paymentBuilder: PaymentBuilder,
+    private val deliveryOrderBuilder: DeliveryOrderBuilder,
     private val screenStack: ScreenStack
 ) : ViewRouter<RootView, RootInteractor, RootBuilder.Component>(view, interactor, component) {
-    private var createDeliveryOrderRouter: CreateDeliveryOrderRouter? = null
-    private var paymentRouter: PaymentRouter? = null
+    private var deliveryOrderRouter: DeliveryOrderRouter? = null
 
-    fun attachCreateDeliveryOrder() {
-        val router = createDeliveryOrderBuilder.build()
+    fun attachDeliveryOrder() {
+        val router = deliveryOrderBuilder.build()
         attachChild(router)
-        createDeliveryOrderRouter = router
+        deliveryOrderRouter = router
     }
 
-    fun detachCreateDeliveryOrder() {
-        val router = createDeliveryOrderRouter ?: return
+    fun detachDeliveryOrder() {
+        val router = deliveryOrderRouter ?: return
         detachChild(router)
-        screenStack.popToScreen(DeliverySelectTimeScreen::class, true)
-        createDeliveryOrderRouter = null
-    }
-
-    fun attachPayment() {
-        val router = paymentBuilder.build()
-        attachChild(router)
-        paymentRouter = router
-    }
-
-    fun detachPayment() {
-        val router = paymentRouter ?: return
-        detachChild(router)
-        screenStack.dismissToScreen(SelectPaymentScreen::class, true)
-        paymentRouter = null
+        screenStack.popToScreen(PickupScreen::class, true)
+        deliveryOrderRouter = null
     }
 
     override fun handleBackPress(): Boolean {
