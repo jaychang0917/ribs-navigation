@@ -35,6 +35,18 @@ android {
     }
 }
 
+sonarqube {
+    properties {
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.organization", "Jay"
+        property "sonar.projectKey", "jaychang0917_ribs-navigation"
+        property "sonar.projectName", "ribs-navigation"
+        property "sonar.projectVersion", "1.0"
+        property "sonar.coverage.jacoco.xmlReportPaths", "app/build/reports/jacoco/jacocoTestCoverageReport/jacocoTestCoverageReport.xml"
+        property "sonar.junit.reportsPath", "app/build/test-results/*/TEST-*.xml"
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
