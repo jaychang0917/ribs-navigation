@@ -1,0 +1,100 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.8.5'
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+def buildType = (project.getProperties().get("buildType") ?: "Debug")
+def buildTypeCapitalized = buildType.capitalize()
+def isAndroidProject = project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.library")
+def isKotlinProject = project.plugins.hasPlugin("kotlin")
+
+def dependsOn = []
+if (isAndroidProject) {
+    dependsOn = ["test${buildTypeCapitalized}UnitTest"]
+} else if (isKotlinProject) {
+    dependsOn = ["test"]
+}
+
+task jacocoTestCoverageReport(type: JacocoReport, dependsOn: dependsOn) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for ${buildTypeCapitalized} build"
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def excludes = [
+            // Generated
+            '**/build/**/*',
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+
+            // Tests
+            '**/*Test*.*',
+
+            // Android framework
+            '**/Manifest*.*',
+            'android/**/*.*',
+            '**/*View.*',
+            '**/*View$*.*',
+            '**/*Dialog.*',
+            '**/*Dialog$*.*',
+            '**/*Sheet.*',
+            '**/*Sheet$*.*',
+            '**/*Fragment.*',
+            '**/*Fragment$*.*',
+            '**/*Activity.*',
+            '**/*Activity$*.*',
+            '**/*Service.*',
+            '**/*Service$*.*',
+            '**/*BroadcastReceiver.*',
+            '**/*BroadcastReceiver$*.*',
+            '**/*Application.*',
+            '**/*Application$*.*',
+
+            // Dagger
+            '**/*Module.*',
+            '**/*Module$*.*',
+
+            // RIBs
+            '**/ribs/**/*Builder.*',
+            '**/ribs/**/*Builder$*.*',
+            '**/ribs/**/*Router.*',
+            '**/ribs/**/*Router$*.*',
+            '**/ribs/**/*Screen.*',
+            '**/ribs/**/*Screen$*.*',
+
+            // Debug Tools
+            '**/debugtools/*.*',
+
+            // Dagger
+            '**/di/*.*',
+
+            // Data Models
+            '**/models/data/*.*',
+
+            // Domain Models
+            '**/models/domain/*.*'
+    ]
+    def generatedClassesDirs = fileTree(
+            dir: "$buildDir/intermediates/classes/${buildType}",
+            excludes: excludes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/${buildType}",
+            excludes: excludes
+    )
+    classDirectories.setFrom(generatedClassesDirs)
+
+    def sourcesDirs = files(["$project.projectDir/src/main/java"])
+    sourceDirectories.setFrom(sourcesDirs)
+
+    def executionDataDirs = fileTree(dir: project.buildDir, includes: ["jacoco/test${buildTypeCapitalized}UnitTest.exec"])
+    executionData.setFrom(executionDataDirs)
+}
