@@ -15,14 +15,12 @@
  *
  */
 
-package com.jaychang.navdemo.root
+package com.jaychang.navdemo.root.delivery_order.dropoff
 
-import android.content.Context
-import android.util.AttributeSet
-import android.widget.FrameLayout
+import com.uber.rib.core.ViewRouter
 
-class RootView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : FrameLayout(context, attrs, defStyle), RootInteractor.Presenter
+class DropoffRouter(
+    view: DropoffView,
+    interactor: DropoffInteractor,
+    component: DropoffBuilder.Component
+) : ViewRouter<DropoffView, DropoffInteractor, DropoffBuilder.Component>(view, interactor, component)

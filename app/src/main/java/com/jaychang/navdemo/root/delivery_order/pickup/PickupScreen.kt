@@ -15,14 +15,14 @@
  *
  */
 
-package com.jaychang.navdemo.root
+package com.jaychang.navdemo.root.delivery_order.pickup
 
-import android.content.Context
-import android.util.AttributeSet
-import android.widget.FrameLayout
+import android.view.View
+import android.view.ViewGroup
+import com.uber.rib.core.screenstack.ViewProvider
 
-class RootView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : FrameLayout(context, attrs, defStyle), RootInteractor.Presenter
+class PickupScreen(
+    private val view: PickupView
+) : ViewProvider() {
+    override fun buildView(parentView: ViewGroup): View = view
+}

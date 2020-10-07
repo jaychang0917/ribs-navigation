@@ -17,8 +17,6 @@
 
 package com.jaychang.navdemo.root
 
-import com.jaychang.navdemo.root.create_delivery_order.CreateDeliveryOrderInteractor
-import com.jaychang.navdemo.root.payment.PaymentInteractor
 import com.uber.rib.core.Bundle
 import com.uber.rib.core.Interactor
 import com.uber.rib.core.RibInteractor
@@ -28,25 +26,12 @@ class RootInteractor : Interactor<RootInteractor.Presenter, RootRouter>() {
 
     override fun didBecomeActive(savedInstanceState: Bundle?) {
         super.didBecomeActive(savedInstanceState)
-        router.attachCreateDeliveryOrder()
+        router.attachDeliveryOrder()
     }
 
     override fun willResignActive() {
         super.willResignActive()
-        println("${javaClass.simpleName} willResignActive")
     }
 
     interface Presenter
-
-    inner class CreateDeliveryOrderListener : CreateDeliveryOrderInteractor.Listener {
-        override fun detachCreateDeliveryOrder() {
-            router.detachCreateDeliveryOrder()
-        }
-    }
-
-    inner class PaymentListener : PaymentInteractor.Listener {
-        override fun detachPayment() {
-            router.detachPayment()
-        }
-    }
 }

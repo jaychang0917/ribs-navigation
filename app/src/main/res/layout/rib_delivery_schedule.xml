@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.jaychang.navdemo.root.delivery_order.package_info.PackageInfoView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.jaychang.navdemo.root.delivery_order.schedule.ScheduleView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="package info"
+        android:text="schedule"
         android:textSize="30sp"
         android:layout_height="wrap_content" />
 
-</com.jaychang.navdemo.root.delivery_order.package_info.PackageInfoView>
+</com.jaychang.navdemo.root.delivery_order.schedule.ScheduleView>
